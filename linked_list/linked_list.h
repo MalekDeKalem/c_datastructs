@@ -7,18 +7,21 @@ typedef struct struct linked_list linked_list;
 
 struct linked_node {
 	void *value;
-	linked_node *next;
+	linked_list_node *next;
+	linked_list_node *prev;
 };
 
 struct linked_list {
-	linked_node *tail;
-	linked_node *head;
+	linked_list_node *start;
+	linked_list_node *end;
 };
 
 
-void linked_node_add(linked_list *ll, void *_value);
-void linked_node_pop(linked_list *ll);
-void linked_node_remove(void* val);
+void linked_list_add_to_start(linked_list *ll, void *_value);
+void linked_liat_add_to_end(linked_list *ll, void *_value);
+void linked_list_remove_from_start(linked_list *ll);
+void linked_list_remove_from_end(linked_list *ll);
+int linked_list_search(void *val);
 
 
 
