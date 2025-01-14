@@ -46,3 +46,40 @@ int linked_list_search(linked_list *ll, void *val, comparator_func cmp) {
     }
     return 0; 
 }
+
+
+
+void linked_list_remove_from_start(linked_list *ll) {
+    if (ll == NULL || ll->start == NULL) return; 
+
+    linked_list_node *temp = ll->start; 
+
+    if (ll->start->next != NULL) {
+        ll->start = ll->start->next;
+        ll->start->prev = NULL;     
+    } else {
+        ll->start = NULL;
+        ll->end = NULL;  
+    }
+
+    free(temp);
+	return;
+}
+
+void linked_list_remove_from_end(linked_list *ll)
+{
+	if (ll == NULL || ll->start == NULL) return;
+
+	linked_list_node *temp = ll->end;
+
+	if (ll->end->prev != NULL) {
+		ll->end = ll->end->prev;
+		ll->end->next = NULL;
+	} else {
+		ll->start = NULL;
+		ll->end = NULL;
+	}
+
+	free(temp);
+	return;
+}
