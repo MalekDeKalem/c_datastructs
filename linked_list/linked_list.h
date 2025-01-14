@@ -18,7 +18,7 @@ struct linked_list {
 
 
 void linked_list_add_to_start(linked_list *ll, void *_value);
-void linked_liat_add_to_end(linked_list *ll, void *_value);
+void linked_list_add_to_end(linked_list *ll, void *_value);
 void linked_list_remove_from_start(linked_list *ll);
 void linked_list_remove_from_end(linked_list *ll);
 int linked_list_search(void *val);
