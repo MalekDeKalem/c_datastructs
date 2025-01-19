@@ -45,7 +45,6 @@ void linked_list_add_to_start(linked_list *ll, void *_value)
 }
 
 
-typedef int (*comparator_func)(const void *, const void *); 
 
 int linked_list_search(linked_list *ll, void *val, comparator_func cmp) 
 {
