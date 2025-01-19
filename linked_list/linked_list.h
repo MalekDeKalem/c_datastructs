@@ -3,6 +3,7 @@
 
 typedef struct linked_list_node linked_list_node;
 typedef struct linked_list linked_list;
+typedef int (*comparator_func)(const void *, const void *); 
 
 
 struct linked_list_node {
@@ -17,11 +18,11 @@ struct linked_list {
 };
 
 linked_list* linked_list_create();  
-void linked_list_add_to_start(linked_list *ll, void *_value);
-void linked_list_add_to_end(linked_list *ll, void *_value);
-void linked_list_remove_from_start(linked_list *ll);
-void linked_list_remove_from_end(linked_list *ll);
-int linked_list_search(void *val);
+void linked_list_add_to_start(linked_list *, void *);
+void linked_list_add_to_end(linked_list *, void *);
+void linked_list_remove_from_start(linked_list *);
+void linked_list_remove_from_end(linked_list *);
+int linked_list_search(linked_list *,void *, comparator_func);
 
 
 
