@@ -4,7 +4,10 @@
 
 
 
-
+int comparator(const void* string1, const void* string2) 
+{
+    return strcmp((const char*)string1, (const char*)string2) == 0;
+}
 
 
 int main() 
@@ -19,7 +22,10 @@ int main()
     linked_list_remove_from_end(ll);
     linked_list_remove_from_end(ll);
     linked_list_add_to_start(ll, "I have risen from the ground");
+    linked_list_node* ln = linked_list_search(ll, "I have risen from the ground", comparator);
     printf("%s\n", ll->end->value);
+    printf("%s\n", ln->value);
+
 
 
     return 0;

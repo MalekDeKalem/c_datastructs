@@ -46,16 +46,16 @@ void linked_list_add_to_start(linked_list *ll, void *_value)
 
 
 
-int linked_list_search(linked_list *ll, void *val, comparator_func cmp) 
+linked_list_node* linked_list_search(linked_list *ll, void *val, comparator_func cmp) 
 {
     linked_list_node *node = ll->start;
     while (node) {
         if (cmp(node->value, val) == 0) {
-            return 1; 
+            return node; 
         }
         node = node->next;
     }
-    return 0; 
+    return NULL; 
 }
 
 void linked_list_remove_from_start(linked_list *ll) {

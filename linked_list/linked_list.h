@@ -22,7 +22,7 @@ void linked_list_add_to_start(linked_list *, void *);
 void linked_list_add_to_end(linked_list *, void *);
 void linked_list_remove_from_start(linked_list *);
 void linked_list_remove_from_end(linked_list *);
-int linked_list_search(linked_list *,void *, comparator_func);
+linked_list_node* linked_list_search(linked_list *,void *, comparator_func);
 
 
 
