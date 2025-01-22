@@ -9,7 +9,7 @@ typedef struct hash_map hash_map;
 typedef struct hash_map_bucket hash_map_bucket;
 typedef struct hash_map_iterator hash_map_iterator;
 
-struct hash_map_buckets
+struct hash_map_bucket
 {
     void *key;
     void *value;
@@ -17,7 +17,7 @@ struct hash_map_buckets
 
 struct hash_map 
 {
-    buckets *hash_map_buckets;
+    hash_map_bucket *buckets;
     size_t capacity;
     size_t length;
 };
@@ -36,7 +36,7 @@ void hash_map_remove(hash_map *, void *);
 void* hash_map_get(hash_map *, void *);
 hash_map* hash_map_create(void *, void *);
 hash_map_iterator hash_map_iter(hash_map *);
-bool hash_map_next(hash_map_iterator* iter);
-
+bool hash_map_next(hash_map_iterator *);
+void hash_map_destroy(hash_map *);
 
 #endif
