@@ -5,28 +5,25 @@
 
 
 
-hash_map* hash_map_create() 
-{
-    hash_map* map = malloc(sizeof(hash_map));
-    if (map == NULL) return NULL;
-    map->length = 0;
+HashMap* createHashMap(size_t (*hashFunc)(void *), int (*cmpFunc)(void *, void *)) {
+    HashMap *map = malloc(sizeof(HashMap));
     map->capacity = INIT_CAPACITY;
-
-    map->buckets = calloc(sizeof(hash_map_bucket));
-    if (map->buckets == NULL) {
-        free(map);
-        return NULL;
-    }
-
+    map->length = 0;
+    map->buckets = calloc(map->capacity, sizeof(HashMapEntry *));
+    map->hashFunc = hash_func;
+    map->cmpFunc = cmp_func;
     return map;
 }
 
-
-void hash_map_destroy(hash_map* map)
-{
-    for (size_t i = 0; i < map->capacity; i++)
-        free((void*)map->buckets[i].key);
-
+void destroyHashMap(HashMap* map) {
+    for (size_t i = 0; i < map->length; i++) {
+        HashMapEntry* entry = map->buckets[i];
+        while (entry != NULL) {
+            HashMapEntry* temp = entry;
+            entry = entry->next;
+            free(temp);
+        }
+    }
     free(map->buckets);
     free(map);
 }
