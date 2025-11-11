@@ -27,3 +27,18 @@ void destroyHashMap(HashMap* map) {
     free(map->buckets);
     free(map);
 }
+
+void addHashMapItem(HashMap* map, void* key, void* value) {
+    int hashIndex = map->hashFunc(key);
+    HashMapEntry* entry = map->buckets[hashIndex];
+    if (entry == NULL) {
+        // Allocate Memory for new Entry
+        HashMapEntry* entry = (HashMapEntry*)malloc(sizeof(HashMapEntry));
+        entry->key = key;
+        entry->value = value;
+        entry->next = NULL;
+        map->buckets[hashIndex] = entry;
+    } else {
+        // Update 
+    }
+}
