@@ -1,4 +1,5 @@
-
+#include <stdlib.h>
+#include <stddef.h>
 #include"hash_map.h"
 
 
@@ -8,8 +9,8 @@ HashMap* createHashMap(size_t (*hashFunc)(void *), int (*cmpFunc)(void *, void *
     map->capacity = INIT_CAPACITY;
     map->length = 0;
     map->buckets = calloc(map->capacity, sizeof(HashMapEntry *));
-    map->hashFunc = hash_func;
-    map->cmpFunc = cmp_func;
+    map->hashFunc = hashFunc;
+    map->cmpFunc = cmpFunc;
     return map;
 }
 
@@ -27,7 +28,7 @@ void destroyHashMap(HashMap* map) {
 }
 
 void addHashMapItem(HashMap* map, void* key, void* value) {
-    int hashIndex = map->hashFunc(key);
+    int hashIndex = map->hashFunc(key) % map->capacity;
     HashMapEntry* entry = map->buckets[hashIndex];
     if (entry == NULL) {
         // Allocate Memory for new Entry
@@ -42,7 +43,7 @@ void addHashMapItem(HashMap* map, void* key, void* value) {
         HashMapEntry* prevEntry = entry;
         int found = 0;
         while (currEntry != NULL) {
-            if (map->cmpFunc(key, currEntry->key)) {
+            if (!map->cmpFunc(key, currEntry->key)) {
                 currEntry->value = value;
                 found = 1;
                 break;
@@ -56,7 +57,7 @@ void addHashMapItem(HashMap* map, void* key, void* value) {
             entry->key = key;
             entry->value = value;
             entry->next = NULL;
-            currEntry = entry;
+            prevEntry->next = entry;
         }
     }
 
@@ -64,7 +65,7 @@ void addHashMapItem(HashMap* map, void* key, void* value) {
 }
 
 void removeHashMapItem(HashMap* map, void* key) {
-    int hashIndex = map->hashFunc(key);
+    int hashIndex = map->hashFunc(key) % map->capacity;
     
     HashMapEntry* firstEntry = map->buckets[hashIndex];
     HashMapEntry* currEntry = firstEntry;
@@ -93,9 +94,9 @@ void removeHashMapItem(HashMap* map, void* key) {
             }
         } else {
             if (next != NULL) {
-                currEntry = next;
+                prevEntry->next = next;
             } else {
-                currEntry = NULL;
+                prevEntry->next = NULL;
             }
             if (currEntry == firstEntry) {
                 map->buckets[hashIndex] = NULL;
@@ -110,12 +111,12 @@ void removeHashMapItem(HashMap* map, void* key) {
 }
 
 void* getHashMapItem(HashMap* map, void* key) {
-    int hashIndex = map->hashFunc(key);
+    int hashIndex = map->hashFunc(key) % map->capacity;
     HashMapEntry* entry = map->buckets[hashIndex];
 
     if (entry == NULL) return NULL;
 
-    while (entry != NULL && map->cmpFunc(entry->key, key)) {
+    while (entry != NULL && !map->cmpFunc(entry->key, key)) {
         entry = entry->next;
     }
 
