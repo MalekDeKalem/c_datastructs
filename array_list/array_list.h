@@ -12,18 +12,19 @@ struct ArrayList
     void** data;
     size_t size;
     size_t capacity;
+    int (*cmpFunc)(void *a, void *b);
 };
 
 
 
-ArrayList* createArrayList();
-ArrayList* createArrayList(size_t);
+ArrayList* createArrayList(int (*cmpFunc)(void *, void *));
+ArrayList* createArrayList(size_t, int (*cmpFunc)(void *, void *));
 void addArrayListItem(ArrayList *, void *);
 void removeAtIndexArrayListItem(ArrayList *, size_t);
 void removeArrayListItem(ArrayList *, void *);
 void* getArrayListItem(ArrayList *, size_t);
 int containsArrayListItem(ArrayList *, void *);
-void printArrayList(ArrayList *);
+
 
 
 #endif // ARRAYLIST_H
