@@ -6,6 +6,7 @@
 
 
 typedef struct ArrayList ArrayList;
+typedef void (*Destructor)(void*);
 
 struct ArrayList 
 {
@@ -13,12 +14,13 @@ struct ArrayList
     size_t size;
     size_t capacity;
     int (*cmpFunc)(void *a, void *b);
+    Destructor destructor;
 };
 
 
 
-ArrayList* createArrayList(int (*cmpFunc)(void *, void *));
-ArrayList* createArrayListWithCapacity(size_t, int (*cmpFunc)(void *, void *));
+ArrayList* createArrayList(int (*cmpFunc)(void *, void *), Destructor);
+ArrayList* createArrayListWithCapacity(size_t, int (*cmpFunc)(void *, void *), Destructor);
 void addArrayListItem(ArrayList *, void *);
 void removeAtIndexArrayListItem(ArrayList *, size_t);
 void removeArrayListItem(ArrayList *, void *);

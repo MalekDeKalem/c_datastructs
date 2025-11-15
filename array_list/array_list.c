@@ -3,22 +3,24 @@
 #include "array_list.h"
 
 
-ArrayList* createArrayList(int (*cmpFunc)(void *, void *)) {
+ArrayList* createArrayList(int (*cmpFunc)(void *, void *), Destructor destructor) {
     ArrayList* list = (ArrayList*)malloc(sizeof(ArrayList));
     list->capacity = INIT_CAPACITY;
     list->data = calloc(list->capacity, sizeof(void*));
     list->size = 0;
     list->cmpFunc = cmpFunc;
+    list->destructor = destructor;
     return list;
 }
 
 
-ArrayList* createArrayListWithCapacity(size_t initcapacity, int (*cmpFunc)(void *, void *)) {
+ArrayList* createArrayListWithCapacity(size_t initcapacity, int (*cmpFunc)(void *, void *), Destructor destructor) {
     ArrayList* list = (ArrayList*)malloc(sizeof(ArrayList));
     list->capacity = initcapacity;
     list->data = calloc(list->capacity, sizeof(void*));
     list->size = 0;
     list->cmpFunc = cmpFunc;
+    list->destructor = destructor;
     return list;
 }
 
@@ -44,7 +46,7 @@ void removeAtIndexArrayListItem(ArrayList* list, size_t index) {
 
     if (!list || list->size == 0) return;
 
-    if (list->size <= index) {
+    if (index >= list->size) {
         fprintf(stderr, "Index out of bounds for the ArrayList\n");
         exit(1);
     }
@@ -58,7 +60,9 @@ void removeAtIndexArrayListItem(ArrayList* list, size_t index) {
     list->size--;
     list->data[list->size] = NULL;
 
-    free(toDelete);
+    if (list->destructor) {
+        list->destructor(toDelete);
+    }
 }
 
 
@@ -83,7 +87,10 @@ void removeArrayListItem(ArrayList* list, void* item) {
 
         list->size--;
         list->data[list->size] = NULL;
-        free(toDelete);
+
+        if (list->destructor) {
+            list->destructor(toDelete);
+        }
     }
 }
 
