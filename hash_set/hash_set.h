@@ -2,6 +2,7 @@
 #ifndef _HASH_SET_H_
 #define _HASH_SET_H_
 
+#define INIT_CAPACITY 16
 
 
 
@@ -27,7 +28,12 @@ struct HashSet
 
 
 
-
+HashSet* createHashSet((*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key));
+HashSet* createHashSet((*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key), size_t);
+int addHashSetItem(HashSet *, void *);
+int removeHashSetItem(HashSet *, void *);
+int containsHashSetItem(HashSet *, void *);
+int isEmptyHashSet(HashSet *);
 
 
 
