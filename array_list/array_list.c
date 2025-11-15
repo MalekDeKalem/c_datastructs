@@ -6,17 +6,17 @@
 ArrayList* createArrayList(int (*cmpFunc)(void *, void *)) {
     ArrayList* list = (ArrayList*)malloc(sizeof(ArrayList));
     list->capacity = INIT_CAPACITY;
-    list->data = calloc(list->capacity * sizeof(void*));
+    list->data = calloc(list->capacity, sizeof(void*));
     list->size = 0;
     list->cmpFunc = cmpFunc;
     return list;
 }
 
 
-ArrayList* createArrayList(size_t initcapacity, int (*cmpFunc)(void *, void *)) {
+ArrayList* createArrayListWithCapacity(size_t initcapacity, int (*cmpFunc)(void *, void *)) {
     ArrayList* list = (ArrayList*)malloc(sizeof(ArrayList));
     list->capacity = initcapacity;
-    list->data = calloc(list->capacity * sizeof(void*));
+    list->data = calloc(list->capacity, sizeof(void*));
     list->size = 0;
     list->cmpFunc = cmpFunc;
     return list;
@@ -36,7 +36,7 @@ void addArrayListItem(ArrayList* list, void* item) {
         list->data = tmp;
     }
 
-    list->data[list->size-1] = item;
+    list->data[list->size] = item;
     list->size++;
 }
 
@@ -89,7 +89,7 @@ void removeArrayListItem(ArrayList* list, void* item) {
 
 int containsArrayListItem(ArrayList* list, void* item) {
 
-    if (!list || list->size == 0) return;
+    if (!list || list->size == 0) return 0;
 
     for (int i = 0; i < list->size; i++) {
         if (list->cmpFunc(item, list->data[i])) return 1;
@@ -100,7 +100,7 @@ int containsArrayListItem(ArrayList* list, void* item) {
 
 void* getArrayListItem(ArrayList* list, size_t index) {
 
-    if (!list || list->size == 0) return;
+    if (!list || list->size == 0) return NULL;
 
     if (index >= list->size) {
         fprintf(stderr, "Index out of bounds cant access\n");

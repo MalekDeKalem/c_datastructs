@@ -18,7 +18,7 @@ struct ArrayList
 
 
 ArrayList* createArrayList(int (*cmpFunc)(void *, void *));
-ArrayList* createArrayList(size_t, int (*cmpFunc)(void *, void *));
+ArrayList* createArrayListWithCapacity(size_t, int (*cmpFunc)(void *, void *));
 void addArrayListItem(ArrayList *, void *);
 void removeAtIndexArrayListItem(ArrayList *, size_t);
 void removeArrayListItem(ArrayList *, void *);
