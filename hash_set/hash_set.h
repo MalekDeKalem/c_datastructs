@@ -3,7 +3,8 @@
 #define _HASH_SET_H_
 
 #define INIT_CAPACITY 16
-
+#define FNV_OFFSET 14695981039346656037UL
+#define FNV_PRIME 1099511628211UL
 
 
 typedef struct HashSet HashSet;
@@ -28,8 +29,8 @@ struct HashSet
 
 
 
-HashSet* createHashSet((*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key));
-HashSet* createHashSet((*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key), size_t);
+HashSet* createHashSet(int (*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key));
+HashSet* createHashSetWithCapacity(int (*cmpFunc)(void *a, void *b), size_t (*hashFunc)(void *key), size_t);
 int addHashSetItem(HashSet *, void *);
 int removeHashSetItem(HashSet *, void *);
 int containsHashSetItem(HashSet *, void *);
